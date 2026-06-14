@@ -39,8 +39,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 PROJECT_APPS = [
-    'common',
     'accounts',
+    'common',
     'extrusion',
     'master_data',
     'measurements',
@@ -54,11 +54,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'common.apps.CommonConfig',
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
-]
+] + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -143,3 +142,5 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
