@@ -2,6 +2,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from decimal import Decimal
 from common.models import BaseModel, MaterialModel
+from master_data.constants import ProfileValidationErrorMessages
 
 
 class Profile(BaseModel):
@@ -17,7 +18,10 @@ class Profile(BaseModel):
     theoretical_gpm = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        validators=[MinValueValidator(Decimal('0.01'), 'Theoretical grams per meter must be greater than zero.')],
+        validators=[
+            MinValueValidator(
+                limit_value=Decimal('0.01'),
+                message=ProfileValidationErrorMessages.THEORETICAL_GRM_MESSAGE)],
     )
 
 
@@ -34,7 +38,10 @@ class Workpiece(BaseModel, MaterialModel):
     nominal_length_mm = models.DecimalField(
         max_digits=6,
         decimal_places=2,
-        validators=[MinValueValidator(Decimal('0.01'), 'Nominal length must be greater than zero.')],
+        validators=[
+            MinValueValidator(
+                limit_value=Decimal('0.01'),
+                message=ProfileValidationErrorMessages.NOMINAL_LENGTH_MESSAGE)],
     )
 
     def __str__(self):

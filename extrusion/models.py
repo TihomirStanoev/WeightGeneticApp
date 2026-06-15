@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator, MinValueValidator
 from django.db import models
 
 from common.models import BaseModel
+from extrusion.constants import ExtrusionValidationErrorMessages
 
 
 class Extrusion(BaseModel):
@@ -14,18 +15,26 @@ class Extrusion(BaseModel):
 
     basket = models.CharField(
         max_length=4,
-        validators=[RegexValidator(r'^\d{,4}$', 'Invalid basket number.')]
+        validators=[
+            RegexValidator(
+                regex=r'^\d{,4}$',
+                message=ExtrusionValidationErrorMessages.INVALID_BASKET_MESSAGE)]
     )
 
     card_no = models.CharField(
         max_length=8,
-        validators=[RegexValidator(r'^\d{8}$', 'Invalid card number')]
+        validators=[
+            RegexValidator(
+                regex=r'^\d{8}$',
+                message=ExtrusionValidationErrorMessages.INVALID_CARD_MESSAGE)]
     )
 
     card_grm = models.DecimalField(
         max_digits=7,
         decimal_places=2,
-        validators=[MinValueValidator(Decimal('0.01'), 'GRM must be greater than zero.')]
+        validators=[MinValueValidator(
+            Decimal('0.01'),
+            message=ExtrusionValidationErrorMessages.GRM_MESSAGE)]
     )
 
     k_route = models.DecimalField(
