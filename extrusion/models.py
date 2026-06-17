@@ -23,6 +23,7 @@ class Extrusion(BaseModel):
 
     card_no = models.CharField(
         max_length=8,
+        unique=True,
         validators=[
             RegexValidator(
                 regex=r'^\d{8}$',

@@ -21,6 +21,7 @@ class BaseModel(models.Model):
 class MaterialModel(models.Model):
     material = models.CharField(
         max_length=8,
+        unique=True,
         validators=[
             RegexValidator(
                 regex=r'^[12]\d{7}$',
