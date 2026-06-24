@@ -57,9 +57,13 @@ class ReferenceBaseView:
     def _workpiece_material(self):
         return self.kwargs['workpiece_material']
 
+    @property
+    def _profile_code(self):
+        return self.kwargs['profile_code']
+
 
     def get_queryset(self):
-        return Reference.objects.select_related('workpiece').filter(workpiece__material=self._workpiece_material)
+        return Reference.objects.select_related('workpiece').filter(workpiece__material=self._workpiece_material, workpiece__profile__code=self._profile_code)
 
 
 
