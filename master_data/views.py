@@ -69,7 +69,7 @@ class ReferenceBaseView:
 
 class ReferenceListCreateView(ReferenceBaseView, generics.ListCreateAPIView):
     def perform_create(self, serializer):
-        workpiece = get_object_or_404(Workpiece, material=self._workpiece_material)
+        workpiece = get_object_or_404(Workpiece, material=self._workpiece_material, profile__code=self._profile_code)
         serializer.save(workpiece=workpiece)
 
 
