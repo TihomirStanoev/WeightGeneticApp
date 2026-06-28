@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/master-data/', include('master_data.urls')),
     path('api/extrusion/', include('extrusion.urls')),
+    path('api/measurements/', include('measurements.urls')),
     path('api/token/', include('accounts.urls')),
 ]
