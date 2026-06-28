@@ -38,7 +38,7 @@ def test_extrusion_visible_under_correct_parent():
 
     client = APIClient()
     client.force_authenticate(user=user)
-    response = client.get(f'/api/extrusion/{profile_code}/{card_no}/')
+    response = client.get(f'/api/extrusion/profiles/{profile_code}/cards/{card_no}/')
 
     assert response.status_code == 200
 
@@ -70,6 +70,6 @@ def test_extrusion_hidden_under_wrong_parent():
 
     client = APIClient()
     client.force_authenticate(user=user)
-    response = client.get(f'/api/extrusion/{wrong_profile_code}/{card_no}/')
+    response = client.get(f'/api/extrusion/profiles/{wrong_profile_code}/cards/{card_no}/')
 
     assert response.status_code == 404
