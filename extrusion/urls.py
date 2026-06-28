@@ -5,6 +5,6 @@ from extrusion import views
 
 
 urlpatterns = [
-    path('<str:profile_code>/', views.ExtrusionListCreateView.as_view(), name='extrusion-list'),
-    path('<str:profile_code>/<str:card_no>/', views.ExtrusionDetailView.as_view(), name='extrusion-detail'),
+    path('profiles/<str:profile_code>/cards/', views.ExtrusionListCreateView.as_view(), name='extrusion-list'),
+    path('profiles/<str:profile_code>/cards/<str:card_no>/', views.ExtrusionDetailView.as_view(), name='extrusion-detail'),
 ]
