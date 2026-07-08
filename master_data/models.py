@@ -30,6 +30,7 @@ class Profile(BaseModel):
 
 
 class Workpiece(BaseModel, MaterialModel):
+    LENGTH_TOLERANCE_MM = 7
     profile = models.ForeignKey(
         to='Profile',
         on_delete=models.CASCADE,
