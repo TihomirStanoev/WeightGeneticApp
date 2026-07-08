@@ -1,6 +1,9 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from extrusion.models import Extrusion
+from master_data.models import Workpiece
+from measurements.constants import MeasurementValidationErrorMessages
 from measurements.models import Batch, Measurement
 
 
@@ -48,3 +51,15 @@ class MeasurementSerializer(serializers.ModelSerializer):
             'machined_weight_gr',
         ) + read_only_fields
 
+
+
+    def validate_length_mm(self, value):
+        batch = self.context.get('batch')
+        nominal_length_mm = batch.reference.workpiece.nominal_length_mm
+        low = nominal_length_mm - Workpiece.LENGTH_TOLERANCE_MM
+        high = nominal_length_mm + Workpiece.LENGTH_TOLERANCE_MM
+
+        if low > value or value > high:
+            raise ValidationError(MeasurementValidationErrorMessages.LENGTH_OUT_OF_RANGE.format(length=value, low=low, high=high))
+
+        return value
