@@ -37,11 +37,23 @@ class MeasurementBaseView:
     def get_queryset(self):
         return Measurement.objects.select_related('batch').filter(batch_id=self._batch_pk)
 
+    def get_batch(self):
+        return get_object_or_404(Batch, pk=self._batch_pk)
+
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['batch'] = self.get_batch()
+
+        return context
+
+
 
 class MeasurementListCreateView(MeasurementBaseView, generics.ListCreateAPIView):
     def perform_create(self, serializer):
-        batch = get_object_or_404(Batch, pk=self._batch_pk)
+        batch = self.get_batch()
         serializer.save(batch=batch)
+
 
 
 class MeasurementDetailView(MeasurementBaseView, generics.RetrieveUpdateDestroyAPIView):
