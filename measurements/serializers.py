@@ -52,6 +52,16 @@ class MeasurementSerializer(serializers.ModelSerializer):
         ) + read_only_fields
 
 
+    @staticmethod
+    def _assert_within_tolerance(value, base, filed_name):
+        tolerance = Measurement.WEIGHT_TOLERANCE_PCT
+        low = (1 - tolerance) * base
+        high = (1 + tolerance) * base
+
+        if value < low or value > high:
+            raise ValidationError(MeasurementValidationErrorMessages.WEIGHT_OUT_OF_RANGE.format(value=value, low=low, high=high, filed_name=filed_name))
+
+
 
     def validate_length_mm(self, value):
         batch = self.context.get('batch')
@@ -63,3 +73,24 @@ class MeasurementSerializer(serializers.ModelSerializer):
             raise ValidationError(MeasurementValidationErrorMessages.LENGTH_OUT_OF_RANGE.format(length=value, low=low, high=high))
 
         return value
+
+
+    def validate_workpiece_weight_gr(self, value):
+        batch = self.context.get('batch')
+        workpiece_theoretical_weight = batch.reference.workpiece.theoretical_weight
+
+        self._assert_within_tolerance(value, workpiece_theoretical_weight, 'workpiece_weight_gr')
+
+        return value
+
+
+
+    def validate_machined_weight_gr(self, value):
+        batch = self.context.get('batch')
+        machined_theoretical_weight = batch.reference.theoretical_weight
+
+        self._assert_within_tolerance(value, machined_theoretical_weight, 'machined_theoretical_weight')
+
+        return value
+
+
