@@ -34,6 +34,8 @@ class Batch(BaseModel):
 
 
 class Measurement(BaseModel):
+    WEIGHT_TOLERANCE_PCT = Decimal('0.10')
+
     batch = models.ForeignKey(
         to='Batch',
         related_name='measurements',
