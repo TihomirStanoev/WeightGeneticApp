@@ -34,11 +34,18 @@ class MeasurementBaseView:
     def _batch_pk(self):
         return self.kwargs['batch_pk']
 
+
+    @property
+    def _reference_material(self):
+        return self.kwargs['reference']
+
+
     def get_queryset(self):
-        return Measurement.objects.select_related('batch').filter(batch_id=self._batch_pk)
+        return Measurement.objects.select_related('batch').filter(batch_id=self._batch_pk, batch__reference__material=self._reference_material)
+
 
     def get_batch(self):
-        return get_object_or_404(Batch, pk=self._batch_pk)
+        return get_object_or_404(Batch, pk=self._batch_pk, reference__material=self._reference_material)
 
 
     def get_serializer_context(self):
