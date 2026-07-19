@@ -53,13 +53,13 @@ class MeasurementSerializer(serializers.ModelSerializer):
 
 
     @staticmethod
-    def _assert_within_tolerance(value, base, filed_name):
+    def _assert_within_tolerance(value, base, field_name):
         tolerance = Measurement.WEIGHT_TOLERANCE_PCT
         low = (1 - tolerance) * base
         high = (1 + tolerance) * base
 
         if value < low or value > high:
-            raise ValidationError(MeasurementValidationErrorMessages.WEIGHT_OUT_OF_RANGE.format(value=value, low=low, high=high, filed_name=filed_name))
+            raise ValidationError(MeasurementValidationErrorMessages.WEIGHT_OUT_OF_RANGE.format(value=value, low=low, high=high, field_name=field_name))
 
 
 
