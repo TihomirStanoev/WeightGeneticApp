@@ -89,7 +89,7 @@ class MeasurementSerializer(serializers.ModelSerializer):
         batch = self.context.get('batch')
         machined_theoretical_weight = batch.reference.theoretical_weight
 
-        self._assert_within_tolerance(value, machined_theoretical_weight, 'machined_theoretical_weight')
+        self._assert_within_tolerance(value, machined_theoretical_weight, 'machined_weight_gr')
 
         return value
 
