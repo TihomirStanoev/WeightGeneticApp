@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <form method="post" id="login-form">
+        <label for="login-input" >Username: </label>
+        <input type="text" id="login-input"><br/>
+        <label for="password-input">Password: </label>
+        <input type="password" id="password-input"><br/>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+
+<script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>
