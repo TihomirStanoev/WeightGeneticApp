@@ -45,3 +45,23 @@ async function getProfiles() {
 
     return profiles;
 }
+
+async function getWorkpieces(profileCode) {
+    const accessToken = localStorage.getItem('access');
+    const response = await fetch(
+        `/api/master-data/profiles/${profileCode}/workpieces/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }
+    );
+
+    const workpieces = await response.json();
+
+    if (!response.ok) {
+        throw new Error(errorMessages(workpieces));
+    }
+
+    return workpieces;
+}
