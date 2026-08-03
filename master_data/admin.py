@@ -1,6 +1,5 @@
 from django.contrib import admin
-from master_data.models import Profile
-
+from master_data.models import Profile, Workpiece
 
 
 @admin.register(Profile)
@@ -13,5 +12,22 @@ class ProfileAdmin(admin.ModelAdmin):
 
     search_fields = (
         'code',
+        'description',
+    )
+
+
+@admin.register(Workpiece)
+class WorkpieceAdmin(admin.ModelAdmin):
+    list_display = (
+        'profile',
+        'material',
+        'description',
+        'nominal_length_mm',
+        'theoretical_weight',
+    )
+
+    search_fields = (
+        'profile__code',
+        'material',
         'description',
     )
