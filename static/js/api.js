@@ -26,10 +26,10 @@ async function login(username, password) {
 }
 
 
-async function getProfiles() {
+async function getData(urlInput) {
     const accessToken = localStorage.getItem('access');
     const response = await fetch(
-        '/api/master-data/profiles/', {
+        urlInput, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${accessToken}`
@@ -37,31 +37,19 @@ async function getProfiles() {
         }
     );
 
-    const profiles = await response.json();
-
+    const data = await response.json();
     if (!response.ok) {
-        throw new Error(errorMessages(profiles));
+        throw new Error(errorMessages(data));
     }
 
-    return profiles;
+    return data;
+}
+
+
+async function getProfiles () {
+    return getData(`/api/master-data/profiles/`)
 }
 
 async function getWorkpieces(profileCode) {
-    const accessToken = localStorage.getItem('access');
-    const response = await fetch(
-        `/api/master-data/profiles/${profileCode}/workpieces/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        }
-    );
-
-    const workpieces = await response.json();
-
-    if (!response.ok) {
-        throw new Error(errorMessages(workpieces));
-    }
-
-    return workpieces;
+    return getData(`/api/master-data/profiles/${profileCode}/workpieces/`)
 }
