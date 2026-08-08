@@ -17,43 +17,49 @@ form.addEventListener('submit', async function (event) {
 });
 
 
+function renderWorkpieces(workpieces) {
+    workpiecesUi.textContent = '';
+
+    for (let workpiece of workpieces) {
+        const workpieceLi = document.createElement('li');
+        workpieceLi.textContent = `${workpiece.material} ${workpiece.description}`;
+        workpiecesUi.appendChild(workpieceLi);
+    }
+}
+
+
+function renderProfiles(profiles) {
+    profilesContainer.textContent = '';
+
+    for (let profile of profiles) {
+        const li = document.createElement('li');
+        const b = document.createElement('b');
+        b.textContent = profile.code;
+
+        li.appendChild(b);
+        li.append(` - ${profile.description}: ${profile.theoretical_gpm} gr/m`);
+        profilesContainer.appendChild(li);
+
+        b.addEventListener('click', async function () {
+            try {
+                const workpieces = await getWorkpieces(profile.code);
+                renderWorkpieces(workpieces);
+            } catch (err) {
+                errorDiv.textContent = err.message;
+            }
+
+        });
+    }
+}
 
 
 but.addEventListener('click', async function () {
-    profilesContainer.textContent = '';
     try {
         const profiles = await getProfiles();
-
-        for (let profile of profiles) {
-            const li = document.createElement('li');
-            const b = document.createElement('b');
-
-            b.textContent = profile.code;
-            b.addEventListener('click', async function (){
-
-                try {
-                    const workpieces = await getWorkpieces(profile.code);
-                    workpiecesUi.textContent = '';
-                    for (let workpiece of workpieces) {
-                        const workpieceLi = document.createElement('li');
-                        workpieceLi.textContent = `${workpiece.material} ${workpiece.description}`;
-                        workpiecesUi.appendChild(workpieceLi);
-                    }
-                }
-                catch (err) {
-                    errorDiv.textContent = err.message;
-                }
-            });
-
-            li.appendChild(b);
-            li.append(` - ${profile.description}: ${profile.theoretical_gpm} gr/m`);
-            profilesContainer.appendChild(li);
-        }
+        renderProfiles(profiles);
 
     } catch (err) {
         errorDiv.textContent = err.message;
     }
-
-
 
 });
