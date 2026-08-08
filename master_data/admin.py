@@ -1,5 +1,5 @@
 from django.contrib import admin
-from master_data.models import Profile, Workpiece
+from master_data.models import Profile, Workpiece, Reference
 
 
 @admin.register(Profile)
@@ -28,6 +28,22 @@ class WorkpieceAdmin(admin.ModelAdmin):
 
     search_fields = (
         'profile__code',
+        'material',
+        'description',
+    )
+
+
+@admin.register(Reference)
+class ReferenceAdmin(admin.ModelAdmin):
+    list_display = (
+        'material',
+        'description',
+        'theoretical_weight',
+        'customer_number',
+        'workpiece',
+    )
+
+    search_fields = (
         'material',
         'description',
     )
