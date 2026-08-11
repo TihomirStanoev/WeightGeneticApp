@@ -53,3 +53,7 @@ async function getProfiles () {
 async function getWorkpieces(profileCode) {
     return getData(`/api/master-data/profiles/${profileCode}/workpieces/`)
 }
+
+async function getReference(profileCode, workpieceMaterial) {
+    return getData(`/api/master-data/profiles/${profileCode}/workpieces/${workpieceMaterial}/references/`)
+}
