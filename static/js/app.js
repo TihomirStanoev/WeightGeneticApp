@@ -5,6 +5,7 @@ const but = document.querySelector('#but');
 const profilesContainer = document.querySelector('#profiles');
 const errorDiv = document.querySelector('#error');
 const workpiecesUi = document.querySelector('#workpieces');
+const referencesUi = document.querySelector('#references');
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -16,14 +17,35 @@ form.addEventListener('submit', async function (event) {
     }
 });
 
+function renderReferences(references) {
+    referencesUi.textContent = '';
 
-function renderWorkpieces(workpieces) {
+    for (let reference of references) {
+        const referenceLi = document.createElement('li');
+        referenceLi.textContent = `${reference.material} ${reference.description}`;
+        referencesUi.appendChild(referenceLi);
+    }
+}
+
+function renderWorkpieces(workpieces, profileCode) {
     workpiecesUi.textContent = '';
 
     for (let workpiece of workpieces) {
         const workpieceLi = document.createElement('li');
-        workpieceLi.textContent = `${workpiece.material} ${workpiece.description}`;
+        const b = document.createElement('b');
+        b.textContent = workpiece.material;
+        workpieceLi.appendChild(b);
+        workpieceLi.append(` ${workpiece.description}`);
         workpiecesUi.appendChild(workpieceLi);
+
+        b.addEventListener('click', async function() {
+            try {
+                const references = await getReference(profileCode, workpiece.material);
+                renderReferences(references);
+            } catch (err) {
+                errorDiv.textContent = err.message;
+            }
+        })
     }
 }
 
@@ -43,11 +65,10 @@ function renderProfiles(profiles) {
         b.addEventListener('click', async function () {
             try {
                 const workpieces = await getWorkpieces(profile.code);
-                renderWorkpieces(workpieces);
+                renderWorkpieces(workpieces, profile.code);
             } catch (err) {
                 errorDiv.textContent = err.message;
             }
-
         });
     }
 }
