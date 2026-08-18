@@ -17,9 +17,20 @@ form.addEventListener('submit', async function (event) {
     }
 });
 
+
+async function loadAndRender(fetcher, renderer) {
+    try {
+        const data = await fetcher();
+        renderer(data);
+    } catch (err) {
+        errorDiv.textContent = err.message;
+    }
+}
+
+
+
 function renderReferences(references) {
     referencesUi.textContent = '';
-
     for (let reference of references) {
         const referenceLi = document.createElement('li');
         referenceLi.textContent = `${reference.material} ${reference.description}`;
@@ -29,6 +40,7 @@ function renderReferences(references) {
 
 function renderWorkpieces(workpieces, profileCode) {
     workpiecesUi.textContent = '';
+    referencesUi.textContent = '';
 
     for (let workpiece of workpieces) {
         const workpieceLi = document.createElement('li');
@@ -39,13 +51,11 @@ function renderWorkpieces(workpieces, profileCode) {
         workpiecesUi.appendChild(workpieceLi);
 
         b.addEventListener('click', async function() {
-            try {
-                const references = await getReference(profileCode, workpiece.material);
-                renderReferences(references);
-            } catch (err) {
-                errorDiv.textContent = err.message;
-            }
-        })
+            await loadAndRender(
+                () => getReference(profileCode, workpiece.material),
+                renderReferences
+            );
+        });
     }
 }
 
@@ -63,24 +73,15 @@ function renderProfiles(profiles) {
         profilesContainer.appendChild(li);
 
         b.addEventListener('click', async function () {
-            try {
-                const workpieces = await getWorkpieces(profile.code);
-                renderWorkpieces(workpieces, profile.code);
-            } catch (err) {
-                errorDiv.textContent = err.message;
-            }
+            await loadAndRender(
+                () => getWorkpieces(profile.code),
+                (workpieces) => renderWorkpieces(workpieces, profile.code)
+            );
         });
     }
 }
 
 
 but.addEventListener('click', async function () {
-    try {
-        const profiles = await getProfiles();
-        renderProfiles(profiles);
-
-    } catch (err) {
-        errorDiv.textContent = err.message;
-    }
-
+    await loadAndRender(getProfiles, renderProfiles);
 });
