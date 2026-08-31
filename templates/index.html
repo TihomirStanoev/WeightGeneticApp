@@ -3,26 +3,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeightGeneticApp</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-<div id="app">
-    <form method="post" id="login-form">
-        <label for="login-input" >Username: </label>
-        <input type="text" id="login-input"><br/>
-        <label for="password-input">Password: </label>
-        <input type="password" id="password-input"><br/>
-        <input type="submit" value="Login">
-    </form>
-</div>
-<input type="submit" id="but">
-<div id="error"></div>
+<header class="site-header">
+    <h1>WeightGeneticApp</h1>
+    <span class="tagline">Profiles → Workpieces → References</span>
+</header>
 
-<ul id="profiles"></ul>
-<ul id="workpieces"></ul>
-<ul id="references"></ul>
+<main class="page">
 
+    <aside class="card" id="app">
+        <h2>Sign in</h2>
+        <form method="post" id="login-form">
+            <label for="login-input">Username</label>
+            <input type="text" id="login-input" name="username" autocomplete="username">
+
+            <label for="password-input">Password</label>
+            <input type="password" id="password-input" name="password" autocomplete="current-password">
+
+            <input type="submit" value="Sign in">
+        </form>
+    </aside>
+
+    <div class="workspace">
+
+        <div class="toolbar">
+            <button type="button" id="but">Load profiles</button>
+            <span class="hint">Requires a successful sign in</span>
+        </div>
+
+        <div id="error"></div>
+
+        <section class="drilldown">
+            <div class="card">
+                <h2>Profiles</h2>
+                <ul id="profiles"></ul>
+            </div>
+
+            <div class="card">
+                <h2>Workpieces</h2>
+                <ul id="workpieces"></ul>
+            </div>
+
+            <div class="card">
+                <h2>References</h2>
+                <ul id="references">
+                </ul>
+            </div>
+        </section>
+    </div>
+
+</main>
 
 <script src="{% static 'js/api.js' %}"></script>
 <script src="{% static 'js/app.js' %}"></script>
