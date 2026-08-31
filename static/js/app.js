@@ -33,7 +33,33 @@ function renderReferences(references) {
     referencesUi.textContent = '';
     for (let reference of references) {
         const referenceLi = document.createElement('li');
-        referenceLi.textContent = `${reference.material} ${reference.description}`;
+        const referenceB = document.createElement('b');
+        const customerNumber = document.createElement('span');
+        const referenceDescription = document.createElement('span');
+        const referenceTheoreticalWeight = document.createElement('span');
+        const referenceDiv = document.createElement('div');
+
+        referenceDiv.classList.add('ref-meta');
+        customerNumber.classList.add('tag');
+        referenceDescription.classList.add('ref-desc');
+        referenceTheoreticalWeight.classList.add('tag');
+
+
+        referenceB.textContent = reference.material;
+        referenceDescription.textContent = reference.description;
+
+
+        customerNumber.textContent = reference.customer_number || 'N/a';
+        referenceTheoreticalWeight.textContent = `${reference.theoretical_weight} gr.`;
+
+        referenceDiv.appendChild(customerNumber);
+        referenceDiv.appendChild(referenceTheoreticalWeight);
+
+        referenceLi.appendChild(referenceB);
+        referenceLi.appendChild(referenceDescription);
+        referenceLi.appendChild(referenceDiv);
+
+
         referencesUi.appendChild(referenceLi);
     }
 }
