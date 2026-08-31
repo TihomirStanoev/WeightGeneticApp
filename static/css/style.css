@@ -293,9 +293,43 @@ input[type="submit"]:focus-visible {
 }
 
 #references li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
     color: var(--text);
-    font-family: var(--mono);
     font-size: 13px;
+}
+
+.ref-desc {
+    color: var(--text);
+}
+
+.ref-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ref-meta .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0 8px;
+    white-space: nowrap;
+}
+
+#references li b {
+    cursor: default;
+}
+
+#references li b:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
 }
 
 .drilldown ul:empty::after {
