@@ -55,6 +55,39 @@
                 </ul>
             </div>
         </section>
+        <div class="card">
+            <h2>Add reference</h2>
+            <form method="post" id="reference-form">
+                <div class="field">
+                    <label for="reference-material">Material</label>
+                    <input type="text" id="reference-material" name="material"
+                           maxlength="8" placeholder="10000011" autocomplete="off">
+                </div>
+
+                <div class="field">
+                    <label for="reference-customer-number">Customer number</label>
+                    <input type="text" id="reference-customer-number" name="customer_number"
+                           maxlength="40" placeholder="optional" autocomplete="off">
+                </div>
+
+                <div class="field">
+                    <label for="reference-description">Description</label>
+                    <input type="text" id="reference-description" name="description"
+                           maxlength="40" autocomplete="off">
+                </div>
+
+                <div class="field">
+                    <label for="reference-theoretical-weight">Theoretical weight, gr</label>
+                    <input type="number" id="reference-theoretical-weight" name="theoretical_weight"
+                           step="0.01" min="0" placeholder="0.00" autocomplete="off">
+                </div>
+
+                <div class="field field-action">
+                    <input type="submit" value="Add">
+                </div>
+            </form>
+            <p class="form-hint">Saved under the workpiece whose references are currently shown.</p>
+        </div>
     </div>
 
 </main>
