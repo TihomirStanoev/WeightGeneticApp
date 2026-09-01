@@ -57,3 +57,32 @@ async function getWorkpieces(profileCode) {
 async function getReference(profileCode, workpieceMaterial) {
     return getData(`/api/master-data/profiles/${profileCode}/workpieces/${workpieceMaterial}/references/`)
 }
+
+
+async function postData(urlInput, payload) {
+    const accessToken = localStorage.getItem('access');
+    const response = await fetch(
+        urlInput, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    );
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(errorMessages(data));
+    }
+
+    return data;
+}
+
+
+
+async function createReference(profileCode, workpieceMaterial, payload) {
+    return postData(`/api/master-data/profiles/${profileCode}/workpieces/${workpieceMaterial}/references/`, payload);
+
+}
