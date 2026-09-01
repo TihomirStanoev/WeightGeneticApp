@@ -1,4 +1,5 @@
 const form = document.querySelector('#login-form');
+const referenceForm = document.querySelector('#reference-form');
 const usernameField = document.querySelector('#login-input');
 const passwordField = document.querySelector('#password-input');
 const but = document.querySelector('#but');
@@ -6,6 +7,8 @@ const profilesContainer = document.querySelector('#profiles');
 const errorDiv = document.querySelector('#error');
 const workpiecesUi = document.querySelector('#workpieces');
 const referencesUi = document.querySelector('#references');
+let selectedProfileCode = null;
+let selectedWorkpieceMaterial = null;
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -15,6 +18,37 @@ form.addEventListener('submit', async function (event) {
     } catch (err) {
         errorDiv.textContent = err.message;
     }
+});
+
+
+referenceForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    errorDiv.textContent = '';
+
+    const referenceMaterial = document.querySelector('#reference-material').value;
+    const referenceCustomerNumber = document.querySelector('#reference-customer-number').value;
+    const referenceDescription = document.querySelector('#reference-description').value;
+    const referenceTheoreticalWeight = document.querySelector('#reference-theoretical-weight').value;
+
+    const payload = {
+        material: referenceMaterial,
+        customer_number: referenceCustomerNumber,
+        description: referenceDescription,
+        theoretical_weight: referenceTheoreticalWeight,
+    };
+
+    try {
+        await createReference(selectedProfileCode, selectedWorkpieceMaterial, payload);
+        await loadAndRender(
+        () => getReference(selectedProfileCode, selectedWorkpieceMaterial),
+        renderReferences);
+        this.reset();
+
+    } catch (err) {
+        errorDiv.textContent = err.message;
+    }
+
+
 });
 
 
@@ -65,6 +99,8 @@ function renderReferences(references) {
 }
 
 function renderWorkpieces(workpieces, profileCode) {
+    selectedProfileCode = null;
+    selectedWorkpieceMaterial = null;
     workpiecesUi.textContent = '';
     referencesUi.textContent = '';
 
@@ -77,6 +113,9 @@ function renderWorkpieces(workpieces, profileCode) {
         workpiecesUi.appendChild(workpieceLi);
 
         b.addEventListener('click', async function() {
+            selectedProfileCode = profileCode;
+            selectedWorkpieceMaterial = workpiece.material;
+
             await loadAndRender(
                 () => getReference(profileCode, workpiece.material),
                 renderReferences
