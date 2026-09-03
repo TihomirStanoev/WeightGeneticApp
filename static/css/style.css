@@ -144,7 +144,8 @@ body {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
     width: 100%;
     padding: 8px 10px;
     font: inherit;
@@ -157,7 +158,8 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="number"]:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-soft);
@@ -350,4 +352,50 @@ input[type="submit"]:focus-visible {
 
 #references:empty::after {
     content: "Select a material";
+}
+
+#reference-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px 14px;
+    align-items: end;
+    padding: 16px;
+}
+
+#reference-form .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+#reference-form label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+#reference-form input::placeholder {
+    color: var(--text-faint);
+}
+
+#reference-form .field-action {
+    justify-content: flex-end;
+}
+
+#reference-form input[type="submit"] {
+    width: 100%;
+}
+
+.form-hint {
+    margin: 0;
+    padding: 0 16px 14px;
+    color: var(--text-faint);
+    font-size: 12px;
+}
+
+@media (max-width: 860px) {
+    #reference-form {
+        grid-template-columns: 1fr;
+    }
 }
